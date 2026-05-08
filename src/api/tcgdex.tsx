@@ -8,13 +8,13 @@ export const tcgdex = () => {
     return set;
   };
 
-  const getSerie = async (id: string) => {
-    const serie = await tcgdex.fetch("series", id);
-    return serie;
-  };
+  const getIllustration = async (url: string) => {
+    const illustration = await fetch(`${url}/high.webp`)
+    return illustration
+  }
 
   return {
     getSet,
-    getSerie,
+    getIllustration
   };
 };
