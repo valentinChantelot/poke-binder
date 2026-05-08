@@ -1,11 +1,30 @@
-import { useState } from 'react';
-import heroImg from './assets/hero.png';
-import reactLogo from './assets/react.svg';
-import viteLogo from './assets/vite.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import heroImg from "./assets/hero.png";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "./assets/vite.svg";
+import "./App.css";
+import { tcgdex } from "./api/tcgdex";
 
 function App() {
   const [count, setCount] = useState(0);
+
+  const { getSet } = tcgdex();
+  const [set, setSet] = useState(null);
+
+  const fetchSet = async (id: string) => {
+    const set1 = await getSet(id);
+    if (set1) {
+      setSet(set1);
+    }
+  };
+
+  useEffect(() => {
+    fetchSet("me02.5");
+  }, []);
+
+  useEffect(() => {
+    console.log(set);
+  }, [set]);
 
   return (
     <>

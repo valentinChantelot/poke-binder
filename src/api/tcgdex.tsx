@@ -1,10 +1,20 @@
-import TCGdex from '@tcgdex/sdk';
+import TCGdex from "@tcgdex/sdk";
 
 export const tcgdex = () => {
-  const tcgdex = new TCGdex('fr');
+  const tcgdex = new TCGdex("fr");
 
-  (async () => {
-    const card = await tcgdex.card.get('swsh3-136');
-    console.log(card.name);
-  })();
+  const getSet = async (id: string) => {
+    const set = await tcgdex.fetch("sets", id);
+    return set;
+  };
+
+  const getSerie = async (id: string) => {
+    const serie = await tcgdex.fetch("series", id);
+    return serie;
+  };
+
+  return {
+    getSet,
+    getSerie,
+  };
 };
