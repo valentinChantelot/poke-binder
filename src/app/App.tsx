@@ -1,9 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
 import { DEFAULT_SET_FOR_V1 } from "../config/sets";
-import { fetchSet } from "../lib/tcgdex";
+import { cardSetQuery } from "../lib/tcgdex";
 import "./App.css";
 
-async function App() {
-  const set = await fetchSet(DEFAULT_SET_FOR_V1);
+function App() {
+  const { data: set, isLoading, error } = useQuery(cardSetQuery(DEFAULT_SET_FOR_V1));
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   console.log(set);
 
   return <></>;
