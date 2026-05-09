@@ -13,6 +13,7 @@
     "ci": "biome ci ."
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.100.9",
     "@tcgdex/sdk": "^2.9.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"

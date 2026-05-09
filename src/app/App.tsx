@@ -1,12 +1,12 @@
-import { DEFAULT_SET } from "../config/sets";
-import { getSet } from "../lib/tcgdex/client";
+import { DEFAULT_SET_FOR_V1 } from "../config/sets";
+import { fetchSet } from "../lib/tcgdex";
 import "./App.css";
 
 async function App() {
-    const set = await getSet(DEFAULT_SET);
-    console.log(set);
+  const set = await fetchSet(DEFAULT_SET_FOR_V1);
+  console.log(set);
 
-    return <></>;
+  return <></>;
 }
 
 export default App;
