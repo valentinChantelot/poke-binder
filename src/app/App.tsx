@@ -24,7 +24,7 @@ function App() {
         {set.cards.map((c) => (
           <div key={c.id} className="binder__card">
             <p>{c.name}</p>
-            <img src={c.imageUrl} alt={c.name} />
+            <img src={c.image} alt={c.name} />
           </div>
         ))}
       </section>

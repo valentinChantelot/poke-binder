@@ -11,7 +11,7 @@ export function mapTCGSetToCardSet(raw: TCGSet): CardSet {
       id: c.id,
       localId: c.localId,
       name: c.name,
-      imageUrl: c.image ? `${c.image}/high.webp` : undefined,
+      image: c.image ? `${c.image}/high.webp` : undefined,
     })),
   };
 }
