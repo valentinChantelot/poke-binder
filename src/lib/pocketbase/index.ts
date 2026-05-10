@@ -1,1 +1,1 @@
-export { default as pb } from "./_client";
+export { default as pb } from "./client";

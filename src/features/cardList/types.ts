@@ -20,7 +20,7 @@ export type LightCard = {
   id: string;
   localId: string;
   name: string;
-  imageUrl?: string;
+  image?: string;
 };
 
 export type Card = {
