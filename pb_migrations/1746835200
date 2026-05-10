@@ -1,0 +1,86 @@
+/// <reference path="../pb_data/types.d.ts" />
+
+migrate(
+  // UP
+  (db) => {
+    const collection = new Collection({
+      name: "card_entries",
+      type: "base",
+      system: false,
+
+      fields: [
+        {
+          name: "card_id",
+          type: "text",
+          required: true,
+          options: {
+            min: 1,
+            max: 64,
+            pattern: "",
+          },
+        },
+        {
+          name: "set_id",
+          type: "text",
+          required: true,
+          options: {
+            min: 1,
+            max: 64,
+            pattern: "",
+          },
+        },
+        {
+          name: "variant_id",
+          type: "text",
+          required: true,
+          options: {
+            min: 1,
+            max: 128,
+            pattern: "",
+          },
+        },
+        {
+          name: "quantity",
+          type: "number",
+          required: true,
+          options: {
+            min: 1,
+            max: null,
+            noDecimal: true,
+          },
+        },
+        {
+          name: "language",
+          type: "text",
+          required: true,
+          options: {
+            min: 2,
+            max: 8,
+            pattern: "",
+          },
+        },
+      ],
+
+      // Uniqueness: one record per card + variant + language
+      indexes: [
+        "CREATE UNIQUE INDEX `idx_card_entries_unique` ON `card_entries` (`card_id`, `variant_id`, `language`)",
+      ],
+
+      // Access rules: authenticated user only
+      // To be refined if you move to multi-user later
+      listRule: "@request.auth.id != ''",
+      viewRule: "@request.auth.id != ''",
+      createRule: "@request.auth.id != ''",
+      updateRule: "@request.auth.id != ''",
+      deleteRule: "@request.auth.id != ''",
+    });
+
+    return db.save(collection);
+  },
+
+  // DOWN
+  (db) => {
+    const collection = db.findCollectionByNameOrId("card_entries");
+    return db.delete(collection);
+  }
+);
