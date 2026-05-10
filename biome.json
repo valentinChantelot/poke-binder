@@ -46,6 +46,22 @@
         "useIsArray": "error"
       },
       "style": {
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            "strictCase": false,
+            "conventions": [
+              {
+                "selector": { "kind": "typeAlias" },
+                "formats": ["PascalCase"]
+              },
+              {
+                "selector": { "kind": "interface" },
+                "formats": ["PascalCase"]
+              }
+            ]
+          }
+        },
         "noNonNullAssertion": "warn",
         "useConst": "error",
         "useSingleVarDeclarator": "error",
