@@ -13,6 +13,7 @@ export const setsQuery = queryOptions<Array<SetSummary>>({
     return raw.map(mapRawSetToSetSummary);
   },
   staleTime: ONE_DAY_MS,
+  gcTime: Number.POSITIVE_INFINITY,
 });
 
 export const cardSetQuery = (setId: string) =>
@@ -26,4 +27,5 @@ export const cardSetQuery = (setId: string) =>
       return mapTCGSetToCardSet(raw);
     },
     staleTime: ONE_DAY_MS,
+    gcTime: Number.POSITIVE_INFINITY,
   });
