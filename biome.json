@@ -80,6 +80,14 @@
             ]
           }
         },
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "@tcgdex/sdk": "Use the abstraction layer in src/lib/tcgdex instead of importing @tcgdex/sdk directly."
+            }
+          }
+        },
         "noNonNullAssertion": "error",
         "useConst": "error",
         "useSingleVarDeclarator": "error",
@@ -139,6 +147,16 @@
         "rules": {
           "suspicious": {
             "noConsole": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/lib/tcgdex/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": "off"
           }
         }
       }
