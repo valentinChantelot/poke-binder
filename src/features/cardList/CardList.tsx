@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { cardSetQuery } from '../../lib/tcgdex';
-import './CardList.css';
+import { useQuery } from "@tanstack/react-query";
+import { cardSetQuery } from "../../lib/tcgdex";
+import "./CardList.css";
 
 type CardListProps = {
   setId: string;
@@ -16,12 +16,12 @@ export function CardList({ setId }: CardListProps) {
   return (
     <>
       {set.name} from {set.serie.name}
-      <img src={set.logo} alt={`Logo of ${set.name}`} />
+      {set.logo && <img src={set.logo} alt={`Logo of ${set.name}`} />}
       <section className="binder">
         {set.cards.map((c) => (
           <div key={c.id} className="binder__card">
             <p>{c.name}</p>
-            <img src={c.image} alt={c.name} />
+            {c.image && <img src={c.image} alt={c.name} />}
           </div>
         ))}
       </section>
