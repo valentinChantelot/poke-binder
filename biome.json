@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.14/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -40,7 +40,7 @@
         "noExplicitAny": "error",
         "noConsole": "warn",
         "noDoubleEquals": "error",
-        "noArrayIndexKey": "warn",
+        "noArrayIndexKey": "error",
         "noImplicitAnyLet": "error",
         "noShadowRestrictedNames": "error",
         "useIsArray": "error"
@@ -58,11 +58,29 @@
               {
                 "selector": { "kind": "interface" },
                 "formats": ["PascalCase"]
+              },
+              {
+                "selector": { "kind": "typeParameter" },
+                "formats": ["PascalCase"]
+              },
+              { "selector": { "kind": "enum" }, "formats": ["PascalCase"] },
+              {
+                "selector": { "kind": "enumMember" },
+                "formats": ["CONSTANT_CASE"]
+              },
+              { "selector": { "kind": "class" }, "formats": ["PascalCase"] },
+              {
+                "selector": { "kind": "classProperty" },
+                "formats": ["camelCase"]
+              },
+              {
+                "selector": { "kind": "classMethod" },
+                "formats": ["camelCase"]
               }
             ]
           }
         },
-        "noNonNullAssertion": "warn",
+        "noNonNullAssertion": "error",
         "useConst": "error",
         "useSingleVarDeclarator": "error",
         "useTemplate": "error",
@@ -81,28 +99,38 @@
         "useSimplifiedLogicExpression": "warn"
       },
       "performance": {
-        "noDelete": "warn"
+        "noDelete": "error"
       },
       "a11y": {
         "useAltText": "error",
         "useButtonType": "error",
-        "noAutofocus": "warn"
+        "noAutofocus": "warn",
+        "useAriaPropsForRole": "error",
+        "noAriaHiddenOnFocusable": "error",
+        "useValidAriaRole": "error",
+        "noPositiveTabindex": "error",
+        "useKeyWithClickEvents": "error",
+        "useKeyWithMouseEvents": "error"
       },
       "security": {
         "noDangerouslySetInnerHtml": "error"
       }
     }
   },
+  "css": {
+    "formatter": {
+      "quoteStyle": "double"
+    }
+  },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
+      "quoteStyle": "double",
       "trailingCommas": "all",
       "semicolons": "always",
       "arrowParentheses": "always",
       "bracketSpacing": true,
       "bracketSameLine": false
-    },
-    "globals": ["React"]
+    }
   },
   "overrides": [
     {
