@@ -10,13 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SetsIndexRouteImport } from './routes/sets.index'
-import { Route as SetsSetIdRouteImport } from './routes/sets.$setId'
+import { Route as AuthenticatedSetsIndexRouteImport } from './routes/_authenticated.sets.index'
+import { Route as AuthenticatedSetsSetIdRouteImport } from './routes/_authenticated.sets.$setId'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -24,49 +29,55 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SetsIndexRoute = SetsIndexRouteImport.update({
+const AuthenticatedSetsIndexRoute = AuthenticatedSetsIndexRouteImport.update({
   id: '/sets/',
   path: '/sets/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
-const SetsSetIdRoute = SetsSetIdRouteImport.update({
+const AuthenticatedSetsSetIdRoute = AuthenticatedSetsSetIdRouteImport.update({
   id: '/sets/$setId',
   path: '/sets/$setId',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/sets/$setId': typeof SetsSetIdRoute
-  '/sets/': typeof SetsIndexRoute
+  '/sets/$setId': typeof AuthenticatedSetsSetIdRoute
+  '/sets/': typeof AuthenticatedSetsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/sets/$setId': typeof SetsSetIdRoute
-  '/sets': typeof SetsIndexRoute
+  '/sets/$setId': typeof AuthenticatedSetsSetIdRoute
+  '/sets': typeof AuthenticatedSetsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
-  '/sets/$setId': typeof SetsSetIdRoute
-  '/sets/': typeof SetsIndexRoute
+  '/_authenticated/sets/$setId': typeof AuthenticatedSetsSetIdRoute
+  '/_authenticated/sets/': typeof AuthenticatedSetsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/login' | '/sets/$setId' | '/sets/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/login' | '/sets/$setId' | '/sets'
-  id: '__root__' | '/' | '/login' | '/sets/$setId' | '/sets/'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/login'
+    | '/_authenticated/sets/$setId'
+    | '/_authenticated/sets/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
-  SetsSetIdRoute: typeof SetsSetIdRoute
-  SetsIndexRoute: typeof SetsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,6 +89,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -85,28 +103,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sets/': {
-      id: '/sets/'
+    '/_authenticated/sets/': {
+      id: '/_authenticated/sets/'
       path: '/sets'
       fullPath: '/sets/'
-      preLoaderRoute: typeof SetsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedSetsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
-    '/sets/$setId': {
-      id: '/sets/$setId'
+    '/_authenticated/sets/$setId': {
+      id: '/_authenticated/sets/$setId'
       path: '/sets/$setId'
       fullPath: '/sets/$setId'
-      preLoaderRoute: typeof SetsSetIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedSetsSetIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedSetsSetIdRoute: typeof AuthenticatedSetsSetIdRoute
+  AuthenticatedSetsIndexRoute: typeof AuthenticatedSetsIndexRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedSetsSetIdRoute: AuthenticatedSetsSetIdRoute,
+  AuthenticatedSetsIndexRoute: AuthenticatedSetsIndexRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
-  SetsSetIdRoute: SetsSetIdRoute,
-  SetsIndexRoute: SetsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

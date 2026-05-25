@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SetSelector } from "@/features/setSelector/SetSelector";
 
-export const Route = createFileRoute("/sets/")({
+export const Route = createFileRoute("/_authenticated/sets/")({
   component: SetsPage,
 });
 

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CardList } from "@/features/cardList/CardList";
 
-export const Route = createFileRoute("/sets/$setId")({
+export const Route = createFileRoute("/_authenticated/sets/$setId")({
   component: SetDetailPage,
 });
 
