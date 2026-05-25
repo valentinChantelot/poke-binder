@@ -53,6 +53,10 @@ Then visit `http://localhost:8090/_/` to create the superadmin account (one-time
 
 In the Admin UI → **users** collection → create a user account (email + password). This is the account used to log in to the app.
 
+## Known Limitations
+
+**Session invalidation is client-side only.** The auth guard checks token expiry locally (JWT claim). If a session is revoked server-side (e.g. PocketBase restarted with a new secret, or the user account deleted), the app will not redirect to login until the JWT's natural expiry or the next page navigation. API calls made during that window will fail silently with 401.
+
 ## Development
 
 Run both servers in separate terminals:

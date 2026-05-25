@@ -11,7 +11,9 @@ export const Route = createFileRoute("/login")({
   },
   validateSearch: (search: Record<string, unknown>): { redirect?: string } => {
     const redirectValue = search["redirect"];
-    return typeof redirectValue === "string" ? { redirect: redirectValue } : {};
+    return typeof redirectValue === "string" && redirectValue.startsWith("/")
+      ? { redirect: redirectValue }
+      : {};
   },
   component: LoginPage,
 });

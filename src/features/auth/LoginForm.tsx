@@ -1,6 +1,12 @@
-import type { useLogin } from "./useLogin";
-
-type Props = ReturnType<typeof useLogin>;
+type LoginFormProps = {
+  email: string;
+  setEmail: (value: string) => void;
+  password: string;
+  setPassword: (value: string) => void;
+  error: string | null;
+  isPending: boolean;
+  handleSubmit: (e: React.FormEvent) => void;
+};
 
 export function LoginForm({
   email,
@@ -10,7 +16,7 @@ export function LoginForm({
   error,
   isPending,
   handleSubmit,
-}: Props) {
+}: LoginFormProps) {
   return (
     <form onSubmit={handleSubmit}>
       <label>

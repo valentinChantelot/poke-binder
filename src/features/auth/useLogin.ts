@@ -17,12 +17,13 @@ export function useLogin({ onSuccess }: UseLoginOptions) {
     setError(null);
     try {
       await pb.collection("users").authWithPassword(email, password);
-      onSuccess();
     } catch {
       setError("Email ou mot de passe incorrect.");
+      return;
     } finally {
       setIsPending(false);
     }
+    onSuccess();
   };
 
   return {
