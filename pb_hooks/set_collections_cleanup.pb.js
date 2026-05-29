@@ -3,7 +3,7 @@
 // Lazy cleanup: before returning a set_collections list, remove any record
 // that has no associated card_entries. This is the sole cleanup mechanism —
 // empty collections are safe to hold temporarily but must not appear in the UI.
-onRecordListRequest((e) => {
+onRecordsListRequest((e) => {
   let collections;
   try {
     collections = e.app.findAllRecords("set_collections");
