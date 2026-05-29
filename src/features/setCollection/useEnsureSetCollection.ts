@@ -11,6 +11,7 @@ export function useEnsureSetCollection(setId: string) {
     queryFn: () => ensureSetCollection(setId),
     staleTime: Number.POSITIVE_INFINITY,
     gcTime: Number.POSITIVE_INFINITY,
+    retry: false,
   });
 
   useEffect(() => {

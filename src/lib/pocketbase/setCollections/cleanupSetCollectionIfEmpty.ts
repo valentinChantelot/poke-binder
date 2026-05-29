@@ -1,4 +1,5 @@
 import pb from "../client";
+import { buildSetIdFilter } from "./buildSetIdFilter";
 import type { SetCollection } from "./types";
 
 export async function cleanupSetCollectionIfEmpty(
@@ -7,11 +8,11 @@ export async function cleanupSetCollectionIfEmpty(
   const [collection, entries] = await Promise.all([
     pb
       .collection("set_collections")
-      .getFirstListItem<SetCollection>(`set_id="${setId}"`)
+      .getFirstListItem<SetCollection>(buildSetIdFilter(setId))
       .catch(() => null),
     pb
       .collection("card_entries")
-      .getList(1, 1, { filter: `set_id="${setId}"` }),
+      .getList(1, 1, { filter: buildSetIdFilter(setId) }),
   ]);
 
   if (collection !== null && entries.totalItems === 0) {

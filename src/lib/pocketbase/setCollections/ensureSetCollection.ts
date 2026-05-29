@@ -1,4 +1,6 @@
+import { ClientResponseError } from "pocketbase";
 import pb from "../client";
+import { buildSetIdFilter } from "./buildSetIdFilter";
 import type { SetCollection } from "./types";
 
 export async function ensureSetCollection(
@@ -7,8 +9,11 @@ export async function ensureSetCollection(
   try {
     return await pb
       .collection("set_collections")
-      .getFirstListItem<SetCollection>(`set_id="${setId}"`);
-  } catch {
+      .getFirstListItem<SetCollection>(buildSetIdFilter(setId));
+  } catch (err) {
+    if (!(err instanceof ClientResponseError) || err.status !== 404) {
+      throw err;
+    }
     try {
       return await pb
         .collection("set_collections")
@@ -18,7 +23,7 @@ export async function ensureSetCollection(
       // Unique constraint violation: a concurrent request already created it
       return pb
         .collection("set_collections")
-        .getFirstListItem<SetCollection>(`set_id="${setId}"`);
+        .getFirstListItem<SetCollection>(buildSetIdFilter(setId));
     }
   }
 }

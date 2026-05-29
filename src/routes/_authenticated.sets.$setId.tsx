@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CardList } from "@/features/cardList/CardList";
-import { useEnsureSetCollection } from "@/shared/hooks/useEnsureSetCollection";
+import { useEnsureSetCollection } from "@/features/setCollection/useEnsureSetCollection";
 
 export const Route = createFileRoute("/_authenticated/sets/$setId")({
   component: SetDetailPage,
