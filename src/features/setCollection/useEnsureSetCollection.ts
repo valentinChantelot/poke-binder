@@ -1,24 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import {
-  cleanupSetCollectionIfEmpty,
-  ensureSetCollection,
-} from "@/lib/pocketbase/setCollections";
+import { ensureSetCollection } from "@/lib/pocketbase/setCollections";
 
+// queryFn runs a find-or-create against PocketBase. This is intentionally
+// idempotent (unique index on set_id) and local-only, making the side effect
+// safe inside a query. retry:false prevents duplicate create attempts on error.
 export function useEnsureSetCollection(setId: string) {
-  const query = useQuery({
+  return useQuery({
     queryKey: ["set_collections", setId],
     queryFn: () => ensureSetCollection(setId),
     staleTime: Number.POSITIVE_INFINITY,
     gcTime: Number.POSITIVE_INFINITY,
     retry: false,
   });
-
-  useEffect(() => {
-    return () => {
-      void cleanupSetCollectionIfEmpty(setId).catch(() => undefined);
-    };
-  }, [setId]);
-
-  return query;
 }

@@ -19,8 +19,14 @@ export async function ensureSetCollection(
         .collection("set_collections")
         // biome-ignore lint/style/useNamingConvention: PocketBase field name
         .create<SetCollection>({ set_id: setId });
-    } catch {
-      // Unique constraint violation: a concurrent request already created it
+    } catch (createErr) {
+      if (
+        !(createErr instanceof ClientResponseError) ||
+        createErr.status !== 400
+      ) {
+        throw createErr;
+      }
+      // 400 = unique constraint: a concurrent request created the record first
       return pb
         .collection("set_collections")
         .getFirstListItem<SetCollection>(buildSetIdFilter(setId));
