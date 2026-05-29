@@ -147,6 +147,16 @@
   },
   "overrides": [
     {
+      "includes": ["pb_migrations/**", "pb_hooks/**"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUndeclaredVariables": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": ["*.config.ts", "*.config.js", "vite.config.ts"],
       "linter": {
         "rules": {
