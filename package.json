@@ -17,7 +17,8 @@
     "ci": "biome ci .",
     "prepare": "[ -d .git ] && git config core.hooksPath .githooks || true",
     "test": "vitest",
-    "pb": ".pb/pocketbase serve --dir=pb_data"
+    "pb": ".pb/pocketbase serve --dir=pb_data",
+    "start": "concurrently -n pb,vite -c cyan,magenta \"pnpm pb\" \"pnpm dev\""
   },
   "dependencies": {
     "@tanstack/react-query": "^5.100.9",
@@ -42,6 +43,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^10.0.3",
     "globals": "^17.6.0",
     "jsdom": "^29.1.1",
     "lint-staged": "^17.0.4",
